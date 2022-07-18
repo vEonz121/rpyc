@@ -34,7 +34,7 @@ class RegistryServer(cli.Application):
         if self.mode == "UDP":
             server = UDPRegistryServer(host='::' if self.ipv6 else '0.0.0.0', port=self.port,
                                        pruning_timeout=self.pruning_timeout, allow_listing=self.allow_listing)
-        elif self.mode == "TCP":
+        else:
             server = TCPRegistryServer(port=self.port, pruning_timeout=self.pruning_timeout,
                                        allow_listing=self.allow_listing)
         setup_logger(self.quiet, self.logfile)

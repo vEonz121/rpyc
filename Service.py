@@ -1,9 +1,15 @@
-from regex import R
+
 import rpyc as r
 from rpyc.utils.server import ThreadedServer
 
+
+# run this first on the terminal
+# python rpyc_registry.py -l true -t 500'
+
+
+
 class MyService(r.Service):
-    ALIASES = ["floop", "bloop"]
+    ALIASES= ['MY','FOO', 'BAR']
     def on_connect(self, conn):
         print(f"Someone connected!")
         pass
@@ -14,8 +20,8 @@ class MyService(r.Service):
         print(f"Someone Disconnected!")
         pass
 
-    def exposed_get_answer(self): # this is an exposed method
-        return 42
+    def exposed_get_answer(self, x): # this is an exposed method
+        return f"{x} was the input"
 
     exposed_the_real_answer_though = 43     # an exposed attribute
 
@@ -23,11 +29,10 @@ class MyService(r.Service):
         return "what is the airspeed velocity of an unladen swallow?"
     
 
-# t = ThreadedServer(MyService, port=18861)
-# t.start()
 
 
-mysvc = r.OneShotServer(service=MyService, port=18861, auto_register=True)
-mysvc.start()
 
+# Go to command prompt and get your ipv4 to start this server..
+t = ThreadedServer(service=MyService,hostname='192.168.103.200', port=1856, auto_register=True, listener_timeout=14)
+t.start()
 

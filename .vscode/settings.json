@@ -6,5 +6,6 @@
       "addWords": true,
       "scope": "workspace"
     }
-  }
+  },
+  "cSpell.words": ["classpartial", "flancer", "nord"]
 }
