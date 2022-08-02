@@ -1,0 +1,1 @@
+print(type(str({"id": 0, "name": "ilyas"})))
