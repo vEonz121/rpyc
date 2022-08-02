@@ -1,6 +1,6 @@
-<h3 align="left">Welcome to the</h3>
-<h1 align="center">BitFold: A Distributed K Fold Using RPYC</h1>
-<h3 align="right">Repository</h3>
+<h3 align="left">Welcome to</h3>
+<h1 align="center">BitFold: A Distributed K Fold Process Flow</h1>
+<h3 align="right">using RPYC</h3>
 
 ## 📑 Description
 
@@ -16,6 +16,7 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 3. [🚀 Quick Start](#-quick-start)
 4. [🗿 Before You Start Working](#-before-you-start-working)
 5. [🤓 Recommendations](#-recommendations)
+6. [😏​ How It Works](#-how-it-works)
    <br/>
 
 ## 🏁 Versions
@@ -95,4 +96,10 @@ Please create a branch with the following naming scheme:
 
 > Yes, these are optional. But it makes eveyone more organized if you use them. 🙂
 
-[Back to Top](#welcome-to-the)
+<br/>
+
+## 😏​ How It Works
+
+[ *EXPLAIN HOW THIS THING WORKS* ]
+
+[Back to Top](#welcome-to)
