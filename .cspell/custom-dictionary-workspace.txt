@@ -2,3 +2,4 @@
 classpartial
 flancer
 nord
+rpyc
