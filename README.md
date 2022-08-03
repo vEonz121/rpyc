@@ -13,6 +13,7 @@ BitFold is a peer-to-peer distributed computing approach on the k-fold cross val
 This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialized to further increase speeds.
 
 Subject: **Distributed & Parallel Computing**
+
 Lecturer: **Ts. Nazleeni Samiha Haron**
 
 ## 🖼 Contents
@@ -20,18 +21,43 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [📑 Description](#-description)
 - [🖼 Contents](#-contents)
 - [😏​ How It Works](#-how-it-works)
-    - [Clients `Client.py`](#clients-clientpy)
-    - [Servers `Service.py`](#servers-servicepy)
-    - [Registry](#registry)
+  - [Clients `Client.py`](#clients-clientpy)
+  - [Servers `Service.py`](#servers-servicepy)
+  - [Registry](#registry)
 - [🏁 Versions](#-versions)
 - [🚀 Quick Start](#-quick-start)
   - [Requirements](#requirements)
   - [Installation](#installation)
-    <br/>
+- [🗿 Before You Start Working...](#-before-you-start-working)
+  - [Type of Changes:](#type-of-changes)
+  - [Name of Change:](#name-of-change)
+  - [Example: `feat/new-feature`](#example-featnew-feature)
+- [🤓 Recommendations](#-recommendations)
+  <br/>
 
 ## 😏​ How It Works
 
 #### Clients `Client.py`
+
+**Running the Client**
+
+```py
+# Import the FoldDistributor class
+from Client import FoldDistributor
+
+# Initialize the FoldDistributor with nFolds of 2
+skf = FoldDistributor(num_of_folds)
+
+# Ping Connected Servers
+skf.ping_services()
+
+# Distribute and Process the Folds
+accuracy = skf.distribute_folds(data, target, model)
+
+print(accuracy)
+```
+
+The client can be run by importing the `FoldDistributor` class from `Client.py`. The code snippet shows an example of how the class can be used.
 
 **Initializing the FoldDistributor Client**
 
@@ -58,16 +84,16 @@ def establish_connection(self):
 `establish_connection` will then attempt to connect to servers within the network relative to the number of `nFolds` set for the client (i.e. 3 servers for 3 folds).
 
 ```py
-# Import the FoldDistributor
+# Import the FoldDistributor class
 from Client import FoldDistributor
 
 # Initialize the FoldDistributor with nFolds of 2
 skf = FoldDistributor(2)
 ```
 
-Output: `List of Found Services: ('FOLD0', 'FOLD1')`
+Client Output: `List of Found Services: ('FOLD0', 'FOLD1')`
 
-Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 3. The initialization should return the list of servers which it is connected to.
+Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 2. The initialization should return the list of servers which it is connected to.
 
 **Pinging Servers**
 
@@ -128,6 +154,7 @@ This `distribute_folds` methods then, similar to a classic CV approach, begins g
 Finally, this method consolidates the results of each server's calculations, and returns them as a list.define c
 
 ```py
+# Distribute and Process the Folds
 accuracy = skf.distribute_folds(data, target, best_model)
 print(accuracy)
 ```
@@ -145,7 +172,9 @@ Fold 1 complete
 **Running the Server**
 The server can be run by simply running the `Service.py` file and entering the fold number of the service.
 
-e.g: `python Service.py`
+```
+python Service.py
+```
 
 **On Server Run**
 
@@ -173,7 +202,7 @@ t = ThreadedServer(service=FoldService, hostname='localhost', port=1856, auto_re
 t.start()
 ```
 
-Then, the `ThreadedServer` component from rpyc is run with the shown configuration. The `FoldService` class is passed to the service parameter.
+Then, the `ThreadedServer` component from rpyc is run with the shown configuration with the `FoldService` class being passed to the service parameter.
 
 **On Client Connect**
 
@@ -193,7 +222,7 @@ def on_disconnect(self, conn):
   print(f"Someone disconnected from {FoldService.ALIASES[0]} Service!")
 ```
 
-When a client disconnects to a service, the service will print a message.
+When a client disconnects from the service, the service will print a message.
 
 Server Output: `Someone disconnected to FOLD2 Service!`
 
@@ -260,53 +289,25 @@ The Registry is a default component of RPyC library and is created with referenc
 1. Clone the repo to a desired directory
 
 ```
-
-3. Create a python virtual environment for the project directory
-
-```
-
-python -m venv env
-
-```
-
-4. Activate the virtual environment
-
-```
-
-.\env\Scripts\activate
-
-```
-
-5. Install the requirements from `requirements.txt`
-
-```
-
-python -m pip install -r requirements.txt
-
+git clone https://github.com/vEonz121/rpyc
 ```
 
 3. Create a python virtual environment for the project directory
 
 ```
-
 python -m venv env
-
 ```
 
 4. Activate the virtual environment
 
 ```
-
 .\env\Scripts\activate
-
 ```
 
 5. Install the requirements from `requirements.txt`
 
 ```
-
 python -m pip install -r requirements.txt
-
 ```
 
 ### ...and you can start working!
@@ -318,9 +319,7 @@ python -m pip install -r requirements.txt
 Please create a branch with the following naming scheme:
 
 ```
-
 [type of change]/[name of change]
-
 ```
 
 ### Type of Changes:
@@ -364,4 +363,3 @@ Please create a branch with the following naming scheme:
 <br/>
 
 [Back to Top](#welcome-to)
-```
