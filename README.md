@@ -21,9 +21,9 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [📑 Description](#-description)
 - [🖼 Contents](#-contents)
 - [😏​ How It Works](#-how-it-works)
-  - [Clients `Client.py`](#clients-clientpy)
-  - [Servers `Service.py`](#servers-servicepy)
-  - [Registry](#registry)
+    - [Clients `Client.py`](#clients-clientpy)
+    - [Servers `Service.py`](#servers-servicepy)
+    - [Registry](#registry)
 - [🏁 Versions](#-versions)
 - [🚀 Quick Start](#-quick-start)
   - [Requirements](#requirements)
@@ -150,7 +150,7 @@ def distribute_folds(self, data: pd.DataFrame, target: pd.Series, model: LinearS
 
 This `distribute_folds` methods then, similar to a classic CV approach, begins generating splits for each fold. However, instead of processing the data locally, it delegates the task to an external server, passing `requestObj` into the remote `exposed_train_on_fold` method. (more details on this later during the `Service.py` section)
 
-Finally, this method consolidates the results of each server's calculations, and returns them as a list.define c
+Finally, this method consolidates the results of each server's calculations, and returns them as a list.
 
 ```py
 # Distribute and Process the Folds
@@ -291,19 +291,19 @@ The Registry is a default component of RPyC library and is created with referenc
 git clone https://github.com/vEonz121/rpyc
 ```
 
-3. Create a python virtual environment for the project directory
+2. Create a python virtual environment for the project directory
 
 ```
 python -m venv env
 ```
 
-4. Activate the virtual environment
+3. Activate the virtual environment
 
 ```
 .\env\Scripts\activate
 ```
 
-5. Install the requirements from `requirements.txt`
+4. Install the requirements from `requirements.txt`
 
 ```
 python -m pip install -r requirements.txt
