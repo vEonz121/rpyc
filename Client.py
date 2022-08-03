@@ -1,16 +1,19 @@
+from cgi import test
 import rpyc as r
+r.core.protocol.DEFAULT_CONFIG['allow_pickle'] = True
+
+import json
 
 
 from sklearn.model_selection import StratifiedKFold
 from sklearn.svm import LinearSVC
 import pandas as pd
-import numpy as np
 
 
 
 class FoldDistributor:
     def __init__(self, nFolds):
-        print(r.list_services(timeout=10))
+        print(f"List of Found Services: {r.list_services(timeout=10)}")
         if len(r.list_services(timeout=10)) < nFolds:
             raise Exception("Not enough services available.")
         
@@ -19,7 +22,7 @@ class FoldDistributor:
 
     # tries to connect to all Fold Services
     def establish_connection(self):
-        self.services = [r.connect_by_service(f"FOLD{k}").root for k in range(self.nFolds)]
+        self.services = [r.connect_by_service(f"FOLD{k}", config = {"allow_public_attrs" : True}).root for k in range(self.nFolds)]
     
     def ping_services(self):
         successful = 0
@@ -40,15 +43,14 @@ class FoldDistributor:
             requestObj = {
                 "id": i,
                 "default_model": model,
-                "all_data_x": data,
-                "all_data_y": target,
+                "all_data_x": data.to_numpy(),
+                "all_data_y": target.to_numpy(),
                 "train_index": train_i,
                 "test_index": test_i
             }
-            
             # send request Object and "await" reply
             replyObj = self.services[i].exposed_train_on_fold(requestObj)
-
+            print(f"Fold {i} complete")
             # consolidate to results
             results.append(replyObj)
 

@@ -10,10 +10,9 @@ BitFold is a peer-to-peer distributed computing approach on the k-fold cross val
 2. **Servers** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
 3. **Registry** (_Middleware_) - Keeps track of each server within the peer-to-peer network and provide the list of available servers for clients to use
 
-This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialised to further increase speeds.
+This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialized to further increase speeds.
 
 Subject: **Distributed & Parallel Computing**
-
 Lecturer: **Ts. Nazleeni Samiha Haron**
 
 ## 🖼 Contents
@@ -28,14 +27,6 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [🚀 Quick Start](#-quick-start)
   - [Requirements](#requirements)
   - [Installation](#installation)
-  - [...and you can start working!](#and-you-can-start-working)
-- [🗿 Before You Start Working...](#-before-you-start-working)
-  - [Type of Changes:](#type-of-changes)
-  - [Name of Change:](#name-of-change)
-  - [Example: `feat/new-feature`](#example-featnew-feature)
-    - [DO NOT COMMIT CHANGES DIRECTLY ON THE MASTER BRANCH UNLESS YOU KNOW WHAT YOU ARE DOING](#do-not-commit-changes-directly-on-the-master-branch-unless-you-know-what-you-are-doing)
-- [🤓 Recommendations](#-recommendations)
-  - [Here is a list of recommended extensions used in this repository:](#here-is-a-list-of-recommended-extensions-used-in-this-repository)
     <br/>
 
 ## 😏​ How It Works
@@ -269,25 +260,53 @@ The Registry is a default component of RPyC library and is created with referenc
 1. Clone the repo to a desired directory
 
 ```
-git clone https://github.com/vEonz121/rpyc
-```
 
 3. Create a python virtual environment for the project directory
 
 ```
+
 python -m venv env
+
 ```
 
 4. Activate the virtual environment
 
 ```
+
 .\env\Scripts\activate
+
 ```
 
 5. Install the requirements from `requirements.txt`
 
 ```
+
 python -m pip install -r requirements.txt
+
+```
+
+3. Create a python virtual environment for the project directory
+
+```
+
+python -m venv env
+
+```
+
+4. Activate the virtual environment
+
+```
+
+.\env\Scripts\activate
+
+```
+
+5. Install the requirements from `requirements.txt`
+
+```
+
+python -m pip install -r requirements.txt
+
 ```
 
 ### ...and you can start working!
@@ -299,7 +318,9 @@ python -m pip install -r requirements.txt
 Please create a branch with the following naming scheme:
 
 ```
+
 [type of change]/[name of change]
+
 ```
 
 ### Type of Changes:
@@ -343,3 +364,4 @@ Please create a branch with the following naming scheme:
 <br/>
 
 [Back to Top](#welcome-to)
+```
