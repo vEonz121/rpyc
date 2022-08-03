@@ -1,10 +1,15 @@
 <h3 align="left">Welcome to</h3>
-<h1 align="center">BitFold: A Distributed K-Fold Cross Validation Process Flow</h1>
+<h1 align="center">Fold-Dis: A P2P Distributed Solution to Iteration-based Cross Validation</h1>
 <h3 align="right">using RPYC</h3>
+
+```diff
+- This project currently in very early stages, and needs revisions in various aspects, most egregiously a literature review. 
+- Check back in later for updates!
+```
 
 ## 📑 Description
 
-BitFold is a peer-to-peer distributed computing approach on the k-fold cross validation process for support vector machine models. BitFold runs on three entities which are the **Client**, **Server**, and **Registry**.
+Fold-Dis is a peer-to-peer distributed computing approach on the k-fold cross validation process for support vector machine models. BitFold runs on three entities which are the **Client**, **Server**, and **Registry**.
 
 1. **Clients** - Query the registry for available services and distribute each fold to every available service within the network to cross validate. The results of which, are to be returned as an array of accuracy scores across all folds
 2. **Services** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
