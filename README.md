@@ -10,7 +10,7 @@ BitFold is a peer-to-peer distributed computing approach on the k-fold cross val
 2. **Servers** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
 3. **Registry** (_Middleware_) - Keeps track of each server within the peer-to-peer network and provide the list of available servers for clients to use
 
-This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trined one after another once the client initiates the process.
+This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialised to further increase speeds.
 
 Subject: **Distributed & Parallel Computing**
 
@@ -130,7 +130,11 @@ def distribute_folds(self, data: pd.DataFrame, target: pd.Series, model: LinearS
   return results
 ```
 
-`distribute_folds` is then called to initiate the distribution of folds to the available servers, passing the data, target, and model. The data should be a `pd.DataFrame`, target being a `pd.Series`, and the model being a `LinearSVC`. This method should then return a list of strings which is the `replyObj` returned from the `exposed_train_on_fold` method called on each server. This should be a string which is the accuracy score of the model trained on their respective folds appended to the results list. This list of strings would then be returned to the client after the entire fold iteration process has completed.
+`distribute_folds` is then called to initiate the distribution of folds to the available servers, passing the data, target, and model. The data should be a `pd.DataFrame`, target being a `pd.Series`, and the model being a `LinearSVC`. Later on however, any `pd` objects are translated to an `np.array` before transmission, due to technical constraints with marshalling `pd` objects.
+
+This `distribute_folds` methods then, similar to a classic CV approach, begins generating splits for each fold. However, instead of processing the data locally, it delegates the task to an external server, passing `requestObj` into the remote `exposed_train_on_fold` method. (more details on this later during the `Service.py` section)
+
+Finally, this method consolidates the results of each server's calculations, and returns them as a list.define c
 
 ```py
 accuracy = skf.distribute_folds(data, target, best_model)
@@ -163,7 +167,7 @@ while True:
   else: break
 ```
 
-Upon running the service, a fold number will be requested to be entered from the user. This fold number would be used to identify the service within the network.
+Upon running the service, a fold number will be requested to be entered from the user. This fold number would be used to identify the service within the network. In the future, this number will be automatically generated based on the existing populations of servers.
 
 ```py
 ALIASES = [f'FOLD{int(fold)}']
@@ -238,7 +242,7 @@ def exposed_train_on_fold(self, requestObject: dict[int, LinearSVC, Any, Any, An
   return accuracy
 ```
 
-When the client invokes the `exposed_train_on_fold` method with the fold passed as the `requestObject`, the server begins performing the entire process of validation on the given fold. This involves splitting the data provided into training and testing sets, training the default model on the split data, testing the model prediction, and calculating the accuracy score of the trained model. This accuracy score is then printed out by the server and is passed back to the client to be appended to the results of the entire K-Fold cross validation process.
+When the client invokes the remote `exposed_train_on_fold` method, passing along `requestObject`, the server begins performing the entire process of validation on the given fold. This is identical to a single iteration in a classic approach: performing a train-test split, training the model, then predicting. Finally, it calculates a performance metric (currently only supports accuracy). This accuracy score is printed out by the server and is passed back to the client.
 
 Server Output: `got accuracy 0.9639308060360692`
 
