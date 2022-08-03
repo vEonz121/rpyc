@@ -31,7 +31,6 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [🗿 Before You Start Working...](#-before-you-start-working)
   - [Type of Changes:](#type-of-changes)
   - [Name of Change:](#name-of-change)
-  - [Example: `feat/new-feature`](#example-featnew-feature)
 - [🤓 Recommendations](#-recommendations)
   <br/>
 
