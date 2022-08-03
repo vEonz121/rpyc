@@ -10,9 +10,10 @@ BitFold is a peer-to-peer distributed computing approach on the k-fold cross val
 2. **Servers** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
 3. **Registry** (_Middleware_) - Keeps track of each server within the peer-to-peer network and provide the list of available servers for clients to use
 
-This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trined one after another once the client calls initiates the process.
+This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trined one after another once the client initiates the process.
 
 Subject: **Distributed & Parallel Computing**
+
 Lecturer: **Ts. Nazleeni Samiha Haron**
 
 ## 🖼 Contents
@@ -20,16 +21,22 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [📑 Description](#-description)
 - [🖼 Contents](#-contents)
 - [😏​ How It Works](#-how-it-works)
-  - [Clients `Client.py`](#clients-clientpy)
-  - [Servers `Service.py`](#servers-servicepy)
-  - [Registry](#registry)
+    - [Clients `Client.py`](#clients-clientpy)
+    - [Servers `Service.py`](#servers-servicepy)
+    - [Registry](#registry)
 - [🏁 Versions](#-versions)
 - [🚀 Quick Start](#-quick-start)
   - [Requirements](#requirements)
   - [Installation](#installation)
+  - [...and you can start working!](#and-you-can-start-working)
 - [🗿 Before You Start Working...](#-before-you-start-working)
+  - [Type of Changes:](#type-of-changes)
+  - [Name of Change:](#name-of-change)
+  - [Example: `feat/new-feature`](#example-featnew-feature)
+    - [DO NOT COMMIT CHANGES DIRECTLY ON THE MASTER BRANCH UNLESS YOU KNOW WHAT YOU ARE DOING](#do-not-commit-changes-directly-on-the-master-branch-unless-you-know-what-you-are-doing)
 - [🤓 Recommendations](#-recommendations)
-  <br/>
+  - [Here is a list of recommended extensions used in this repository:](#here-is-a-list-of-recommended-extensions-used-in-this-repository)
+    <br/>
 
 ## 😏​ How It Works
 
@@ -69,7 +76,7 @@ skf = FoldDistributor(2)
 
 Output: `List of Found Services: ('FOLD0', 'FOLD1')`
 
-Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 3. The initialization should return the list of servers which it is connected to. Then, the `ping_services` method is called to ping the available servers listed within the network. The output of the above code snippet should return as such:
+Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 3. The initialization should return the list of servers which it is connected to.
 
 **Pinging Servers**
 
@@ -94,6 +101,10 @@ Client Output: `'There are 2 out of 2 services responded to the ping.'`
 **Distributing and Processing Folds**
 
 ```py
+from sklearn.model_selection import StratifiedKFold
+from sklearn.svm import LinearSVC
+import pandas as pd
+
 def distribute_folds(self, data: pd.DataFrame, target: pd.Series, model: LinearSVC) -> list:
   # build indices of each fold
   skf = StratifiedKFold(n_splits=self.nFolds, shuffle=True)
@@ -167,7 +178,7 @@ t = ThreadedServer(service=FoldService, hostname='localhost', port=1856, auto_re
 t.start()
 ```
 
-Then, a `ThreadedServer` is run with the following configuration. The `FoldService` class is passed to the service parameter.
+Then, the `ThreadedServer` component from rpyc is run with the shown configuration. The `FoldService` class is passed to the service parameter.
 
 **On Client Connect**
 
@@ -239,7 +250,7 @@ The Registry is a default component of RPyC library and is created with referenc
 ## 🏁 Versions
 
 - 0.0.1 - **_(HELLO WORLD!)_** Initial build
-- 0.1.0 - **_GOT IT WORKING_** Working Build 0.1.0 
+- 0.1.0 - **_GOT IT WORKING_** Working Build 0.1.0
   <br/>
 
 ## 🚀 Quick Start
