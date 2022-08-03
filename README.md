@@ -1,5 +1,5 @@
 <h3 align="left">Welcome to</h3>
-<h1 align="center">BitFold: A Distributed K Fold Process Flow</h1>
+<h1 align="center">BitFold: A Distributed K-Fold Cross Validation Process Flow</h1>
 <h3 align="right">using RPYC</h3>
 
 ## 📑 Description
@@ -10,7 +10,7 @@ BitFold is a peer-to-peer distributed computing approach on the k-fold cross val
 2. **Servers** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
 3. **Registry** (_Middleware_) - Keeps track of each server within the peer-to-peer network and provide the list of available servers for clients to use
 
-This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trined one after another once the client calls initiates the process.
+This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialized to further increase speeds.
 
 Subject: **Distributed & Parallel Computing**
 Lecturer: **Ts. Nazleeni Samiha Haron**
@@ -67,7 +67,7 @@ skf = FoldDistributor(2)
 
 Output: `List of Found Services: ('FOLD0', 'FOLD1')`
 
-Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 3. The initialization should return the list of servers which it is connected to. Then, the `ping_services` method is called to ping the available servers listed within the network. The output of the above code snippet should return as such:
+Here, the `FoldDistributor` class is imported from the `Client.py` file and is initialized with `nFolds` of 3. The initialization should return the list of servers which it is connected to.
 
 **Pinging Servers**
 
@@ -92,6 +92,10 @@ Client Output: `'There are 2 out of 2 services responded to the ping.'`
 **Distributing and Processing Folds**
 
 ```py
+from sklearn.model_selection import StratifiedKFold
+from sklearn.svm import LinearSVC
+import pandas as pd
+
 def distribute_folds(self, data: pd.DataFrame, target: pd.Series, model: LinearSVC) -> list:
   # build indices of each fold
   skf = StratifiedKFold(n_splits=self.nFolds, shuffle=True)
@@ -117,7 +121,11 @@ def distribute_folds(self, data: pd.DataFrame, target: pd.Series, model: LinearS
   return results
 ```
 
-`distribute_folds` is then called to initiate the distribution of folds to the available servers, passing the data, target, and model. The data should be a `pd.DataFrame`, target being a `pd.Series`, and the model being a `LinearSVC`. This method should then return a list of strings which is the `replyObj` returned from the `exposed_train_on_fold` method called on each server. This should be a string which is the accuracy score of the model trained on their respective folds appended to the results list. This list of strings would then be returned to the client after the entire fold iteration process has completed.
+`distribute_folds` is then called to initiate the distribution of folds to the available servers, passing the data, target, and model. The data should be a `pd.DataFrame`, target being a `pd.Series`, and the model being a `LinearSVC`. Later on however, any `pd` objects are translated to an `np.array` before transmission, due to technical constraints with marshalling `pd` objects.
+
+This `distribute_folds` methods then, similar to a classic CV approach, begins generating splits for each fold. However, instead of processing the data locally, it delegates the task to an external server, passing `requestObj` into the remote `exposed_train_on_fold` method. (more details on this later during the `Service.py` section)
+
+Finally, this method consolidates the results of each server's calculations, and returns them as a list.define c
 
 ```py
 accuracy = skf.distribute_folds(data, target, best_model)
@@ -150,7 +158,7 @@ while True:
   else: break
 ```
 
-Upon running the service, a fold number will be requested to be entered from the user. This fold number would be used to identify the service within the network.
+Upon running the service, a fold number will be requested to be entered from the user. This fold number would be used to identify the service within the network. In the future, this number will be automatically generated based on the existing populations of servers.
 
 ```py
 ALIASES = [f'FOLD{int(fold)}']
@@ -165,7 +173,7 @@ t = ThreadedServer(service=FoldService, hostname='localhost', port=1856, auto_re
 t.start()
 ```
 
-Then, a `ThreadedServer` is run with the following configuration. The `FoldService` class is passed to the service parameter.
+Then, the `ThreadedServer` component from rpyc is run with the shown configuration. The `FoldService` class is passed to the service parameter.
 
 **On Client Connect**
 
@@ -225,9 +233,9 @@ def exposed_train_on_fold(self, requestObject: dict[int, LinearSVC, Any, Any, An
   return accuracy
 ```
 
-When the client invokes the `exposed_train_on_fold` method with the fold passed as the `requestObject`, the server begins performing the entire process of validation on the given fold. This involves splitting the data provided into training and testing sets, training the default model on the split data, testing the model prediction, and calculating the accuracy score of the trained model. This accuracy score is then printed out by the server and is passed back to the client to be appended to the results of the entire K-Fold cross validation process.
+When the client invokes the remote `exposed_train_on_fold` method, passing along `requestObject`, the server begins performing the entire process of validation on the given fold. This is identical to a single iteration in a classic approach: performing a train-test split, training the model, then predicting. Finally, it calculates a performance metric (currently only supports accuracy). This accuracy score is printed out by the server and is passed back to the client.
 
-Server Output: `god accuracy 0.9639308060360692`
+Server Output: `got accuracy 0.9639308060360692`
 
 #### Registry
 
@@ -237,6 +245,7 @@ The Registry is a default component of RPyC library and is created with referenc
 ## 🏁 Versions
 
 - 0.0.1 - **_(HELLO WORLD!)_** Initial build
+- 0.1.0 - **_GOT IT WORKING_** Working Build 0.1.0
   <br/>
 
 ## 🚀 Quick Start
@@ -248,15 +257,31 @@ The Registry is a default component of RPyC library and is created with referenc
 
 ### Installation
 
-1. Open the desired directory where you would like to clone the repository to and follow the steps in the gif below...
+1. Clone the repo to a desired directory
 
-![](https://i.imgur.com/V1CwPfK.gif)
+```
 
-2. Clone the repo by pasting the command below in the opened cmd window
+3. Create a python virtual environment for the project directory
 
-````
+```
 
-git clone https://github.com/vEonz121/rpyc
+python -m venv env
+
+```
+
+4. Activate the virtual environment
+
+```
+
+.\env\Scripts\activate
+
+```
+
+5. Install the requirements from `requirements.txt`
+
+```
+
+python -m pip install -r requirements.txt
 
 ```
 
@@ -340,4 +365,3 @@ Please create a branch with the following naming scheme:
 
 [Back to Top](#welcome-to)
 ```
-````
