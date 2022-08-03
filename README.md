@@ -6,8 +6,8 @@
 
 BitFold is a peer-to-peer distributed computing approach on the k-fold cross validation process for support vector machine models. BitFold runs on three entities which are the **Client**, **Server**, and **Registry**.
 
-1. **Clients** - Query the registry for available servers and distribute each fold to every available server within the network to cross validate. The results of which, are to be returned as an array of accuracy scores across all folds
-2. **Servers** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
+1. **Clients** - Query the registry for available services and distribute each fold to every available service within the network to cross validate. The results of which, are to be returned as an array of accuracy scores across all folds
+2. **Services** - Provide computational resources for the network to perform cross validation on a fold distributed to them from other clients
 3. **Registry** (_Middleware_) - Keeps track of each server within the peer-to-peer network and provide the list of available servers for clients to use
 
 This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialized to further increase speeds.
@@ -22,7 +22,7 @@ Lecturer: **Ts. Nazleeni Samiha Haron**
 - [🖼 Contents](#-contents)
 - [😏​ How It Works](#-how-it-works)
     - [Clients `Client.py`](#clients-clientpy)
-    - [Servers `Service.py`](#servers-servicepy)
+    - [Service `Service.py`](#servers-servicepy)
     - [Registry](#registry)
 - [🏁 Versions](#-versions)
 - [🚀 Quick Start](#-quick-start)
