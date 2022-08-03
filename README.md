@@ -3,7 +3,7 @@
 <h3 align="right">using RPYC</h3>
 
 ```diff
-- This project currently in very early stages, and needs revisions in various aspects, most egregiously a literature review. 
+- This project is currently in very early stages of development and needs revisions in various aspects, most egregiously needing a literature review. 
 - Check back in later for updates!
 ```
 
