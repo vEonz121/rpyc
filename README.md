@@ -17,10 +17,6 @@ Fold-Dis is a peer-to-peer distributed computing approach on the k-fold cross va
 
 This process of distributed k-fold cross validation is performed sequentially on each fold. This means that each fold is distributed, split, and trained one after another once the client initiates the process. In the future, this process will be deserialized to further increase speeds.
 
-Subject: **Distributed & Parallel Computing**
-
-Lecturer: **Ts. Nazleeni Samiha Haron**
-
 ## 🖼 Contents
 
 - [📑 Description](#-description)
